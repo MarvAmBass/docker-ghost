@@ -60,8 +60,17 @@ Have Fun! And don't forget to go through the initial configuration with your bro
 
 The simples way:
 
-    docker run -d -p 80:2368 -v /var/ghost:/ghost/content -e 'GHOST_URL=http://example.com/blog' marvambass/ghost
+    docker run -d \
+    -p 80:2368 \
+    -v /var/ghost:/ghost/content \
+    -e 'GHOST_URL=http://example.com/blog' \
+    marvambass/ghost
 
 If you want to use your own _config.js_
 
-    docker run -d -p 80:2368 -v /var/ghost/content:/ghost/content -v /var/ghost/config.js:/ghost/config.js:ro -e 'GHOST_URL=http://example.com/blog' marvambass/ghost
+    docker run -d \
+    -p 80:2368 \
+    -v /var/ghost/content:/ghost/content \
+    -v /var/ghost/config.js:/ghost/config.js:ro \
+    -e 'GHOST_URL=http://example.com/blog' \
+    marvambass/ghost
