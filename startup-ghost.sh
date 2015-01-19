@@ -3,7 +3,7 @@
 if [ ! -d /ghost/content/data ]
 then
   echo ">> found empty content folder - copy default contents to it..."
-  cp -a /ghost/content.bak /ghost/content
+  cp -a /ghost/content.bak/* /ghost/content/
 fi
 
 if [ ! -e config.js ]
