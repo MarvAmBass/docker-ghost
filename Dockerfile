@@ -2,7 +2,9 @@ FROM marvambass/nodejs
 MAINTAINER MarvAmBass
 
 RUN apt-get update && apt-get install -y \
-    unzip
+    unzip \
+    curl \
+    pwgen
 
 ENV NODE_ENV production
 

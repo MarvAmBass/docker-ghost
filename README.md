@@ -30,6 +30,25 @@ View in GitHub [MarvAmBass/docker-ghost](https://github.com/MarvAmBass/docker-gh
  * this it how it later will be used inside the config: _mail: {$GHOST\_MAIL},_
  * [more about email here](http://support.ghost.org/config/#email)
  
+#### Auto-configuration Variables
+
+_Be careful at this point with special chars, they might not work like expected!_ 
+ 
+* __GHOST\_USERNAME__
+  * no default - needed for auto-configuration
+  
+* __GHOST\_USERMAIL__
+  * no default - needed for auto-configuration
+  * you need this to login to your ghost blog
+  
+* __GHOST\_TITILE__
+  * default: Ghost
+  * the title line for your blog
+  
+* __GHOST\_USERPASSWORD__
+  * default: generated 10 chars password
+  * minimum size 8 chars
+    
 ### Inherited Variables
 
 * __NODE\_Version__ (from marvambass/nodejs)
@@ -66,11 +85,25 @@ The simples way:
     -e 'GHOST_URL=http://example.com/blog' \
     marvambass/ghost
 
-If you want to use your own _config.js_
+If you want to use your own _config.js_ and _themes_
 
     docker run -d \
     -p 80:2368 \
     -v /var/ghost/content:/ghost/content \
     -v /var/ghost/config.js:/ghost/config.js:ro \
+    -v /var/myghostthemes:/ghost/content/themes \
     -e 'GHOST_URL=http://example.com/blog' \
+    marvambass/ghost
+    
+    
+If you want to use the auto configuration of the docker container
+
+    docker run -d \
+    -p 80:2368 \
+    -v /var/ghost/content:/ghost/content \
+    -e 'GHOST_URL=http://example.com/blog' \
+    -e 'GHOST_USERNAME=Jon Doe' \
+    -e 'GHOST_USERMAIL=jdoe@example.com' \
+    -e 'GHOST_TITILE=Jon Doe does some blogging' \
+    -e 'GHOST_USERPASSWORD=SuperSecretPa55word' \
     marvambass/ghost

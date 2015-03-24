@@ -42,4 +42,46 @@ else
   echo ">> use config.js found in container"
 fi
 
+if [ ! -z ${GHOST_USERNAME+x} ] && [ ! -z ${GHOST_USERMAIL+x} ]
+then
+  npm start &
+  sleep 15
+  
+  echo ">> initial setup user, password, title etc."
+  
+  if [ -z ${GHOST_TITILE+x} ]
+  then
+    GHOST_TITILE=Ghost
+  fi
+  
+  echo ">>   user: $GHOST_USERNAME"
+  echo ">>   email: $GHOST_USERMAIL"
+  echo ">>   title: $GHOST_TITILE"
+
+  if [ -z ${GHOST_URL+x} ]
+  then
+    GHOST_URL=http://localhost
+  fi
+  
+  if [ -z ${GHOST_USERPASSWORD+x} ] || [ 8 -gt ${#GHOST_USERPASSWORD} ]
+  then
+    echo ">>   invalid password set - using generated one"
+    GHOST_USERPASSWORD=`pwgen 10 1`
+    echo ">>   pswd: $GHOST_USERPASSWORD"
+  else
+    echo ">>   pswd: <hidden>"
+  fi
+  
+  curl 'http://127.0.0.1:2368/ghost/api/v0.1/authentication/setup/' \
+  --data "setup[0][name]=$GHOST_USERNAME&setup[0][email]=$GHOST_USERMAIL&setup[0][password]=$GHOST_USERPASSWORD&setup[0][blogTitle]=$GHOST_TITILE"
+  sleep 5
+
+  echo ">> kill node server"
+  kill `ps aux | grep "node index" | head -n1 | awk '{print $2}'`
+  sleep 3
+  kill `ps aux | grep "node index" | head -n1 | awk '{print $2}'`
+  sleep 3
+  echo ">> done with setup"
+fi
+
 npm start
